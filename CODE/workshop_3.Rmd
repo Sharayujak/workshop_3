@@ -1,0 +1,64 @@
+---
+title: "workshop_3"
+output: html_document
+date: "2024-05-16"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+
+(4.3) Tidy data using tidyr
+```{r}
+library(tidyr)
+#Loading data
+combination = read.csv("C:/Users/shara/OneDrive/Desktop/JCU/Sem_3/MB5370/Data_Science_inR/workshop_3/DATA/combination.csv") |>
+  select(!X)
+diving = read.csv("C:/Users/shara/OneDrive/Desktop/JCU/Sem_3/MB5370/Data_Science_inR/workshop_3/DATA/Diving.csv")
+line = read.csv("C:/Users/shara/OneDrive/Desktop/JCU/Sem_3/MB5370/Data_Science_inR/workshop_3/DATA/line.csv")
+net = read.csv("C:/Users/shara/OneDrive/Desktop/JCU/Sem_3/MB5370/Data_Science_inR/workshop_3/DATA/Net.csv")
+other = read.csv("C:/Users/shara/OneDrive/Desktop/JCU/Sem_3/MB5370/Data_Science_inR/workshop_3/DATA/Other.csv")
+pot = read.csv("C:/Users/shara/OneDrive/Desktop/JCU/Sem_3/MB5370/Data_Science_inR/workshop_3/DATA/Pot.csv")
+#Merging datasets
+merged_data = bind_rows(combination, diving, line, net, other, pot)
+```
+
+```{r}
+#Creating teh plot
+new_combination = na.omit(combination)
+ggplot(data = na.omit(combination), aes(x = Year, y = Tonnes)) +
+  geom_point(stat = "identity", position = "dodge", na.rm = TRUE)
+```
+
+
+```{r}
+ggplot(combination, aes (fill = Tonnes, DiscardNumber)) +
+  geom_bar(width = 1, stat = "identity") +
+  coord_polar(theta = "y")+
+  theme_minimal()
+```
+
+
+
+
