@@ -1,0 +1,52 @@
+---
+title: "workshop_3"
+output: html_document
+date: "2024-05-16"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+```{r, echo=FALSE}
+library(tidyverse)
+```
+
+
+```{r, echo=FALSE}
+#Loading data
+combination = read.csv("C:/Users/shara/OneDrive/Desktop/JCU/Sem_3/MB5370/Data_Science_inR/workshop_3/DATA/combination.csv") |>
+  select(!X)
+diving = read.csv("C:/Users/shara/OneDrive/Desktop/JCU/Sem_3/MB5370/Data_Science_inR/workshop_3/DATA/Diving.csv")
+line = read.csv("C:/Users/shara/OneDrive/Desktop/JCU/Sem_3/MB5370/Data_Science_inR/workshop_3/DATA/line.csv")
+net = read.csv("C:/Users/shara/OneDrive/Desktop/JCU/Sem_3/MB5370/Data_Science_inR/workshop_3/DATA/Net.csv")
+other = read.csv("C:/Users/shara/OneDrive/Desktop/JCU/Sem_3/MB5370/Data_Science_inR/workshop_3/DATA/Other.csv")
+pot = read.csv("C:/Users/shara/OneDrive/Desktop/JCU/Sem_3/MB5370/Data_Science_inR/workshop_3/DATA/Pot.csv")
+```
+
+
+```{r, echo=FALSE}
+#Merging datasets
+library(dplyr)
+merged_data <- bind_rows(combination, diving, line, net, other, pot) %>%
+  mutate(Fishing.method = as.factor(Fishing.method)) %>%
+  mutate_if(is.character, as.numeric)
+```
+
+```{r, echo=FALSE}
+#Let's apply the above to merged dataset with facet wrap
+merged_data[merged_data == "N/A"] <- NA
+merged_data[merged_data == ""] <- NA
+merged_data <- na.omit(merged_data)
+#merged_data$Year <- factor(merged_data$Year)
+```
+
+```{r, echo=FALSE}
+plot = ggplot(data = merged_data, aes(x = Year, y = Tonnes, fill = Fishing.method, colour = Fishing.method)) + 
+  geom_point(pch = 21, colour = "black", size = 2) +
+  geom_line(aes(group = 1)) +
+  facet_wrap(~ Fishing.method, scales = "free_y") +
+  theme_bw()
+```
+
