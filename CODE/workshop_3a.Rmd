@@ -4,17 +4,17 @@ output: html_document
 date: "2024-05-16"
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include=TRUE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
 
-```{r, echo=FALSE}
+```{r, echo=TRUE}
 library(tidyverse)
 ```
 
 
-```{r, echo=FALSE}
+```{r, echo=TRUE}
 #Loading data
 combination = read.csv("C:/Users/shara/OneDrive/Desktop/JCU/Sem_3/MB5370/Data_Science_inR/workshop_3/DATA/combination.csv") |>
   select(!X)
@@ -26,7 +26,7 @@ pot = read.csv("C:/Users/shara/OneDrive/Desktop/JCU/Sem_3/MB5370/Data_Science_in
 ```
 
 
-```{r, echo=FALSE}
+```{r, echo=TRUE}
 #Merging datasets
 library(dplyr)
 merged_data <- bind_rows(combination, diving, line, net, other, pot) %>%
@@ -34,7 +34,7 @@ merged_data <- bind_rows(combination, diving, line, net, other, pot) %>%
   mutate_if(is.character, as.numeric)
 ```
 
-```{r, echo=FALSE}
+```{r, echo=TRUE}
 #Let's apply the above to merged dataset with facet wrap
 merged_data[merged_data == "N/A"] <- NA
 merged_data[merged_data == ""] <- NA
@@ -42,11 +42,12 @@ merged_data <- na.omit(merged_data)
 #merged_data$Year <- factor(merged_data$Year)
 ```
 
-```{r, echo=FALSE}
-plot = ggplot(data = merged_data, aes(x = Year, y = Tonnes, fill = Fishing.method, colour = Fishing.method)) + 
+```{r, echo=TRUE}
+ ggplot(data = merged_data, aes(x = Year, y = Tonnes, fill = Fishing.method, colour = Fishing.method)) + 
   geom_point(pch = 21, colour = "black", size = 2) +
   geom_line(aes(group = 1)) +
   facet_wrap(~ Fishing.method, scales = "free_y") +
   theme_bw()
+
 ```
 
